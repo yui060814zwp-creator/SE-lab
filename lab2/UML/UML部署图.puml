@@ -7,7 +7,7 @@ skinparam dpi 150
 skinparam node {
   BackgroundColor #F7FAFC
   BorderColor #344054
-  FontSize 12
+  FontSize 11
 }
 skinparam database {
   BackgroundColor #EEF4FA
@@ -20,14 +20,15 @@ skinparam cloud {
 skinparam artifact {
   BackgroundColor #FFFFFF
   BorderColor #667085
+  FontSize 11
 }
 skinparam note {
   BackgroundColor #FFF8E6
   BorderColor #E4B363
-  FontSize 11
+  FontSize 10
 }
 
-node "用户终端\n（iOS / Android 微信内置浏览器）" as CLIENT {
+node "用户终端\n微信内置浏览器" as CLIENT {
   artifact "顾客端 H5" as A1
   artifact "商家端 H5" as A2
   artifact "配送端 H5" as A3
@@ -36,20 +37,20 @@ node "管理端 PC 浏览器" as ADMIN {
   artifact "管理后台" as A4
 }
 
-node "接入服务器  2C4G ×1" as EDGE {
-  artifact "Nginx\nTLS 1.2+ / 静态资源 / 反向代理" as NGX
+node "接入服务器\n2C4G" as EDGE {
+  artifact "Nginx\nTLS 1.2+" as NGX
 }
 
-node "应用服务器  4C8G ×2（无状态）" as APP {
-  artifact "校园食刻应用\nJVM 单体：账号·商品·交易·履约" as JAR
-  artifact "定时任务调度\n（选主，单实例执行）" as SCHED
+node "应用服务器 4C8G ×2\n无状态" as APP {
+  artifact "校园食刻应用\n账号·商品·交易·履约" as JAR
+  artifact "定时任务\n选主执行" as SCHED
 }
 
-database "MySQL 8.0\n主库 + 只读从库" as DB
-node "Redis 6\n缓存 / 库存 / 幂等键 / 分布式锁" as REDIS
-node "消息队列\n订单事件 / 延迟消息" as MQ
+database "MySQL 8.0\n主库 + 从库" as DB
+node "Redis 6\n缓存·库存·幂等键" as REDIS
+node "消息队列\n事件·延迟消息" as MQ
 node "对象存储\n菜品图片" as OSS
-cloud "支付平台\n沙箱 / 微信支付商户" as PAY
+cloud "支付平台\n沙箱／微信支付" as PAY
 
 CLIENT --> NGX : HTTPS 443
 ADMIN --> NGX : HTTPS 443
@@ -60,18 +61,16 @@ APP --> MQ : 5672
 APP --> OSS : HTTPS
 SCHED --> DB
 SCHED --> MQ
-APP --> PAY : 下单/退款 API（HTTPS）
-PAY --> APP : 支付回调（HTTPS 验签）
+APP --> PAY : 下单／退款
+PAY --> APP : 回调（验签）
 
 note right of APP
-  单机部署但应用无状态：
-  会话与幂等键放 Redis，
+  应用无状态：会话与幂等键放 Redis，
   两台实例可水平扩展；
   定时任务用数据库锁选主，
-  避免超时关闭被重复执行。
+  避免超时取消被重复执行。
 end note
 note bottom of PAY
-  支付回调是订单状态
-  变更的唯一依据（REQ-007）
+  支付回调是订单状态变更的唯一依据（REQ-007）
 end note
 @enduml

@@ -8,13 +8,13 @@ skinparam object {
   BackgroundColor #FFFFFF
   BorderColor #344054
   HeaderBackgroundColor #EAF1FA
-  FontSize 13
-  AttributeFontSize 12
+  FontSize 12
+  AttributeFontSize 11
 }
 skinparam note {
   BackgroundColor #FFF8E6
   BorderColor #E4B363
-  FontSize 11
+  FontSize 10
 }
 
 object "顾客账号 : 账号" as U {
@@ -29,33 +29,28 @@ object "当前规格 : 规格" as SPEC {
 object "订单 : 订单" as O {
   订单号 = "SC20261024183012"
   状态 = "待接单"
-  应付金额 = "54.00"
   实付金额 = "54.00"
-  幂等键 = "8f2c1e07..."
+  幂等键 = "8f2c1e07…"
 }
 object "明细[1] : 订单明细" as L1 {
-  菜品名快照 = "招牌腊味煲仔饭"
-  规格名快照 = "大份"
+  菜品名快照 = "腊味煲仔饭"
   单价快照 = "18.00"
   数量 = "2"
 }
 object "明细[2] : 订单明细" as L2 {
   菜品名快照 = "香菇滑鸡饭"
-  规格名快照 = "小份"
   单价快照 = "16.00"
   数量 = "1"
 }
 object "支付单 : 支付单" as P {
   渠道 = "微信支付（沙箱）"
   渠道交易号 = "4200002***"
-  状态 = "已支付"
 }
 object "配送单 : 配送单" as D {
   状态 = "待分配"
-  配送人员 = "未绑定"
 }
 
-U --> O : 提交（幂等键去重）
+U --> O : 提交
 O *--> L1
 O *--> L2
 L1 ..> SPEC : 快照引用
@@ -63,13 +58,11 @@ O --> P : 1 : 1
 O --> D : 1 : 1
 
 note right of SPEC
-  商家在本单支付后把"大份"由
-  18.00 调到 20.00；
-  订单明细仍保留 18.00，
-  退款与统计按快照结算。
+  支付后商家把"大份"由 18.00 调到 20.00：
+  订单仍按 18.00 结算，退款与统计也用快照。
 end note
 note bottom of O
-  一个运行时快照：订单 + 2 条明细 + 支付单 + 配送单，
-  加总 18.00×2 + 16.00 + 配送费 2.00 = 54.00。
+  一次下单完成后的运行时快照：
+  18.00×2 + 16.00 + 配送费 2.00 = 54.00
 end note
 @enduml

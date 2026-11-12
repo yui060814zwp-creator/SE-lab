@@ -28,23 +28,23 @@ actor "支付平台" as 支付 <<system>>
 actor "定时任务" as 定时 <<system>>
 
 rectangle "校园食刻 · 外卖点餐与配送系统" {
-  usecase "浏览店铺与筛选菜品" as UC02
-  usecase "选择规格加入购物车" as UC03
+  usecase "筛选菜品" as UC02
+  usecase "加购物车" as UC03
   usecase "提交订单并支付" as UC04
-  usecase "校验并扣减库存" as UC06
-  usecase "取消订单与退款" as UC07
-  usecase "查询本人订单" as UC08
-  usecase "维护收货地址" as UC09
+  usecase "扣减库存" as UC06
+  usecase "取消与退款" as UC07
+  usecase "查询订单" as UC08
+  usecase "管理收货地址" as UC09
 
-  usecase "维护菜品·规格·库存" as UC11
+  usecase "维护菜品与库存" as UC11
   usecase "接单／拒单／出餐" as UC12
-  usecase "指派配送单" as UC13
-  usecase "查看经营统计" as UC14
+  usecase "指派配送" as UC13
+  usecase "经营统计" as UC14
 
-  usecase "抢单并执行配送" as UC15
+  usecase "抢单与配送执行" as UC15
   usecase "标记配送失败" as UC16
 
-  usecase "账号·店铺·违规管理" as UC17
+  usecase "账号与店铺管理" as UC17
   usecase "查询操作日志" as UC18
 
   usecase "回调验签与幂等" as UC21

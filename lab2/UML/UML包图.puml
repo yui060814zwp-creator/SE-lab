@@ -2,55 +2,57 @@
 skinparam defaultFontName "Microsoft YaHei"
 skinparam shadowing false
 skinparam packageStyle rectangle
-skinparam ArrowColor #2B3445
+skinparam ArrowColor #344054
 skinparam ArrowFontColor #5A6272
+skinparam dpi 150
 skinparam package {
   BackgroundColor #FFFFFF
-  BorderColor #2B3445
+  BorderColor #344054
   FontColor #1F3B63
-  FontSize 13
+  FontSize 12
 }
 skinparam note {
   BackgroundColor #FFF8E6
   BorderColor #E4B363
-  FontSize 11
+  FontSize 10
 }
+hide stereotype
 
-package "表现层 presentation" as PRES #F3F6FB {
-  package "顾客端 H5\n（微信内置浏览器）" as P1
+package "表现层" as PRES #F1F5FB {
+  package "顾客端 H5" as P1
   package "商家端 H5" as P2
   package "配送端 H5" as P3
-  package "平台管理后台" as P4
-  package "统一网关\n鉴权·限流·幂等键·埋点" as P5
+  package "管理后台" as P4
+  package "统一网关" as P5
 }
 
-package "应用层 application" as APP #EEF4FA {
-  package "身份与权限\naccount" as A1
-  package "店铺与商品\ncatalog" as A2
-  package "交易\ntrade" as A3
-  package "履约\nfulfillment" as A4
-  package "查询与统计\nreport" as A5
-  package "运营与审计\nops" as A6
+package "应用层" as APP #EEF4FA {
+  package "身份与权限" as A1
+  package "店铺与商品" as A2
+  package "交易" as A3
+  package "履约" as A4
+  package "查询与统计" as A5
+  package "运营与审计" as A6
 }
 
-package "领域层 domain" as DOM #EAF5EE {
-  package "订单领域\n状态机·价格快照" as D1
-  package "库存与定价\nstock" as D2
-  package "配送调度\ndispatch" as D3
-  package "结算与退款\nsettlement" as D4
-  package "权限策略\npolicy" as D5
+package "领域层" as DOM #EAF5EE {
+  package "订单领域" as D1
+  package "库存与定价" as D2
+  package "配送调度" as D3
+  package "结算与退款" as D4
+  package "权限策略" as D5
 }
 
-package "基础设施层 infrastructure" as INF #F6F2FB {
-  package "MySQL\n主数据与事务" as I1
-  package "Redis\n缓存·库存·幂等键" as I2
-  package "消息队列\n事件·重试" as I3
-  package "支付适配层\n沙箱／微信支付" as I4
-  package "定时任务\n超时·对账·归档" as I5
-  package "对象存储\n菜品图片" as I6
+package "基础设施层" as INF #F6F2FB {
+  package "MySQL" as I1
+  package "Redis" as I2
+  package "消息队列" as I3
+  package "支付适配" as I4
+  package "定时任务" as I5
+  package "对象存储" as I6
 }
 
-P1 ..> P5 : HTTPS
+P1 ..> P5
 P2 ..> P5
 P3 ..> P5
 P4 ..> P5
@@ -77,21 +79,17 @@ D2 ..> I1
 D2 ..> I2
 D3 ..> I1
 D3 ..> I2
-D4 ..> I4
 D4 ..> I1
+D4 ..> I4
 I5 ..> I1
 
-note right of P5
-  依赖方向自上而下：
-  上层只依赖下层提供的接口，
-  领域层通过端口接口访问基础设施，
-  更换支付渠道或缓存实现不影响上层代码。
+note right of D1
+  订单领域是全局唯一的状态裁决点：
+  订单、支付、配送、退款、库存五个对象
+  的状态变更在此校验，由同一事务提交（REQ-021）。
 end note
-
-note bottom of D1
-  D1 是全局唯一的状态裁决点：
-  订单、支付、配送、退款、库存
-  五个对象的状态变更在此校验后
-  由同一事务提交（REQ-021）。
+note left of I4
+  依赖只向下：支付渠道、缓存实现可替换，
+  上层代码不变（REQ-024 的适配层要求）。
 end note
 @enduml

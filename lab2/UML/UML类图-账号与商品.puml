@@ -1,0 +1,95 @@
+@startuml UML类图-账号与商品
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam ArrowColor #344054
+skinparam ArrowFontColor #5A6272
+skinparam dpi 150
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #344054
+  HeaderBackgroundColor #EAF1FA
+  FontSize 12
+  AttributeFontSize 11
+}
+skinparam package {
+  BackgroundColor #FBFCFE
+  BorderColor #B9C4D4
+  FontColor #1F3B63
+  FontSize 12
+}
+hide stereotype
+
+package "账号与权限" #F1F5FB {
+  abstract class 账号 {
+    # 账号ID : String
+    # 手机号 : String
+    # 角色 : 角色枚举
+    # 状态 : 账号状态
+    + 登录(验证码) : 凭证
+    + 校验数据归属(对象) : Boolean
+  }
+  class 顾客 {
+    + 提交订单(购物车) : 订单
+  }
+  class 商家 {
+    + 接单(订单) : void
+    + 拒单(订单, 原因) : void
+  }
+  class 配送人员 {
+    + 抢单(配送单) : Boolean
+    + 标记送达(配送单) : void
+  }
+  class 平台管理员 {
+    + 作废订单(订单, 原因) : void
+  }
+}
+
+package "店铺与商品" #F2F8F4 {
+  class 店铺 {
+    + 营业状态 : 营业状态
+    + 配送半径 : Integer
+    + 可下单(地址) : Boolean
+  }
+  class 菜品 {
+    + 名称 : String
+    + 上架状态 : Boolean
+    + 最低价() : Money
+  }
+  class 规格 {
+    + 名称 : String
+    + 价格 : Money
+    + 库存 : Integer
+    + 扣减(数量) : void
+  }
+}
+
+package "收货地址" #FEF7F0 {
+  class 收货地址 {
+    + 联系人 : String
+    + 手机号 : String
+    + 是否默认 : Boolean
+    + 距店铺(店铺) : Integer
+  }
+}
+
+账号 <|-- 顾客
+账号 <|-- 商家
+账号 <|-- 配送人员
+账号 <|-- 平台管理员
+
+商家 "1" -- "0..*" 店铺 : 经营
+店铺 "1" *-- "1..*" 菜品 : 上架
+菜品 "1" *-- "1..*" 规格 : 提供
+顾客 "1" -- "0..*" 收货地址 : 维护
+
+note bottom of 账号
+  权限按"角色 + 数据归属"双重校验，
+  越权统一返回 403（REQ-002）
+end note
+note right of 规格
+  价格与库存挂在规格上，
+  菜品展示价为可选规格的最低价（REQ-004）
+end note
+@enduml
