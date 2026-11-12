@@ -1,0 +1,62 @@
+@startuml UML时序图
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam ArrowColor #344054
+skinparam ArrowFontColor #5A6272
+skinparam dpi 150
+skinparam sequence {
+  ArrowColor #344054
+  LifeLineBorderColor #98A2B3
+  ParticipantBackgroundColor #EAF1FA
+  ParticipantBorderColor #344054
+  ParticipantFontSize 12
+  GroupBackgroundColor #F7FAFC
+  GroupBorderColor #98A2B3
+  NoteBackgroundColor #FFF8E6
+  NoteBorderColor #E4B363
+}
+skinparam note {
+  FontSize 11
+}
+
+autonumber "<b>0"
+participant "顾客" as U
+participant "顾客端 H5" as H5
+participant "订单服务" as ORD
+participant "库存服务" as STK
+participant "支付服务" as PAY
+participant "支付平台" as PLAT
+participant "商家端" as SHOP
+
+U -> H5 : 选择规格，点击提交订单
+H5 -> ORD : POST /orders（幂等键、地址、购物车）
+ORD -> ORD : 校验购物车、地址与店铺营业状态
+ORD -> STK : 校验并扣减库存（同一事务）
+alt 库存不足
+  STK --> ORD : 返回缺货规格
+  ORD --> H5 : 409 缺货，整单回滚
+  H5 --> U : 提示缺货项，购物车保留
+else 库存充足
+  STK --> ORD : 扣减成功
+  ORD -> ORD : 生成订单＋明细快照＋状态流水＋操作日志
+  ORD --> H5 : 订单号、待支付、支付参数
+  H5 -> U : 跳转收银台
+  U -> PLAT : 完成支付
+  PLAT -> PAY : 异步回调（签名、金额、交易号）
+  group 回调处理：验签 → 幂等 → 同事务改状态
+    PAY -> ORD : 确认支付结果
+    alt 渠道交易号已处理过
+      ORD --> PAY : 幂等返回，不重复变更
+    else 首次回调
+      ORD -> ORD : 订单：待支付 → 待接单，写流水与日志
+      ORD --> PAY : 成功
+    end
+  end
+  ORD -> SHOP : 发布"支付成功"事件（商家端提醒）
+  SHOP --> U : 待接单（5 分钟内未接单将自动取消并退款）
+end
+note over ORD, PAY
+  支付结果只认支付平台的服务端回调，
+  客户端"支付完成"跳转不作为依据（REQ-007）
+end note
+@enduml

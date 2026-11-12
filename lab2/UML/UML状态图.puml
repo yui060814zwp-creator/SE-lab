@@ -1,0 +1,63 @@
+@startuml UML状态图
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam ArrowColor #344054
+skinparam ArrowFontColor #5A6272
+skinparam dpi 150
+skinparam state {
+  BackgroundColor #F7FAFC
+  BorderColor #344054
+  FontSize 12
+  AttributeFontSize 11
+}
+skinparam note {
+  BackgroundColor #FFF8E6
+  BorderColor #E4B363
+  FontSize 11
+}
+
+state "待支付" as S1
+state "待接单" as S2
+state "制作中" as S3
+state "待配送" as S4
+state "配送中" as S5
+state "已完成" as S6
+state "已取消" as S7
+state "已关闭" as S8
+state "已退款" as S9
+
+[*] --> S1 : 顾客提交订单
+S1 --> S2 : 支付回调成功 [验签通过] / 记录支付时间
+S1 --> S8 : 超时 15 分钟未支付 / 释放库存
+S1 --> S8 : 顾客取消
+S2 --> S3 : 商家接单 [状态=待接单] / 记录接单时间
+S2 --> S7 : 商家拒单（必选原因） / 发起全额退款
+S2 --> S7 : 超时 5 分钟未接单 / 自动取消并退款
+S2 --> S7 : 顾客取消 / 全额退款
+S3 --> S4 : 商家出餐 / 记录出餐时间
+S3 --> S7 : 商家同意取消申请 / 全额退款
+S4 --> S5 : 配送单分配成功 / 绑定配送人员
+S4 --> S7 : 商家取消（无人可派） / 全额退款
+S4 --> S7 : 顾客申请经商家同意 / 全额退款
+S5 --> S6 : 配送人员点击送达 / 记录送达时间
+S5 --> S7 : 标记配送失败（必选原因） / 全额退款
+S5 --> S6 : 顾客改为自取 / 配送单作废
+S7 --> S9 : 退款回执成功 / 回写退款完成时间
+S6 --> [*]
+S8 --> [*]
+S9 --> [*]
+
+note right of S7
+  取消与退款不是同一状态：
+  "已取消"表示订单终结，
+  "已退款"表示资金已退回。
+  退款失败时停留在"已取消"，
+  由退款单标记为退款失败并
+  进入人工处理队列（REQ-011）。
+end note
+note bottom of S5
+  并发冲突（如"接单"与"超时取消"同时到达）
+  以行锁下先落库的变更为准，后到者返回
+  409，不覆盖已有状态（REQ-021）。
+end note
+@enduml

@@ -1,0 +1,81 @@
+@startuml UML用例图
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam ArrowColor #344054
+skinparam ArrowFontColor #5A6272
+skinparam dpi 150
+skinparam usecase {
+  BackgroundColor #F7FAFC
+  BorderColor #344054
+  FontSize 11
+}
+skinparam actor {
+  BackgroundColor #FFFFFF
+  BorderColor #344054
+  FontSize 12
+}
+skinparam rectangle {
+  BackgroundColor #FBFCFE
+  BorderColor #B9C4D4
+}
+left to right direction
+
+actor "顾客" as 顾客
+actor "商家" as 商家
+actor "配送人员" as 配送
+actor "平台管理员" as 管理员
+actor "支付平台" as 支付 <<system>>
+actor "定时任务" as 定时 <<system>>
+
+rectangle "校园食刻 · 外卖点餐与配送系统" {
+  usecase "浏览店铺与筛选菜品" as UC02
+  usecase "选择规格加入购物车" as UC03
+  usecase "提交订单并支付" as UC04
+  usecase "校验并扣减库存" as UC06
+  usecase "取消订单与退款" as UC07
+  usecase "查询本人订单" as UC08
+  usecase "维护收货地址" as UC09
+
+  usecase "维护菜品·规格·库存" as UC11
+  usecase "接单／拒单／出餐" as UC12
+  usecase "指派配送单" as UC13
+  usecase "查看经营统计" as UC14
+
+  usecase "抢单并执行配送" as UC15
+  usecase "标记配送失败" as UC16
+
+  usecase "账号·店铺·违规管理" as UC17
+  usecase "查询操作日志" as UC18
+
+  usecase "回调验签与幂等" as UC21
+  usecase "超时关闭／自动取消" as UC20
+  usecase "对账与差异告警" as UC22
+}
+
+顾客 --> UC02
+顾客 --> UC03
+顾客 --> UC04
+顾客 --> UC07
+顾客 --> UC08
+顾客 --> UC09
+
+商家 --> UC11
+商家 --> UC12
+商家 --> UC13
+商家 --> UC14
+
+配送 --> UC15
+配送 --> UC16
+
+管理员 --> UC17
+管理员 --> UC18
+
+支付 --> UC21
+定时 --> UC20
+定时 --> UC22
+
+UC04 ..> UC06 : <<include>>
+UC04 ..> UC21 : <<include>>
+UC07 ..> UC21 : <<include>>
+UC15 ..> UC13 : <<extend>>
+@enduml

@@ -1,0 +1,91 @@
+@startuml UML组件图
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam ArrowColor #344054
+skinparam ArrowFontColor #5A6272
+skinparam dpi 150
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #344054
+  FontSize 12
+}
+skinparam package {
+  BackgroundColor #FBFCFE
+  BorderColor #B9C4D4
+  FontColor #1F3B63
+  FontSize 12
+}
+skinparam database {
+  BackgroundColor #EEF4FA
+  BorderColor #344054
+}
+skinparam queue {
+  BackgroundColor #F7FAFC
+  BorderColor #344054
+}
+left to right direction
+
+package "接入组件" #F1F5FB {
+  component "顾客端 H5" as CUS
+  component "商家端 H5" as MER
+  component "配送端 H5" as RID
+  component "管理后台" as ADM
+  component "API 网关\n鉴权·限流·幂等键" as GW
+}
+
+package "业务组件" #F7FAFC {
+  component "账号与权限组件" as ACC
+  component "商品组件\n菜品·规格·库存" as CAT
+  component "订单组件" as ORD
+  component "支付组件" as PAY
+  component "退款组件" as REF
+  component "配送组件" as DSP
+  component "通知组件" as NTF
+  component "统计组件" as RPT
+  component "审计组件" as AUD
+}
+
+package "基础设施组件" #F6F2FB {
+  database "MySQL" as DB
+  component "Redis\n缓存·库存·幂等键" as CACHE
+  queue "消息队列\n订单事件·延迟消息" as MQ
+  component "支付适配\n沙箱／微信支付" as CH
+}
+
+CUS --> GW
+MER --> GW
+RID --> GW
+ADM --> GW
+
+GW ..> ACC : 鉴权接口
+GW ..> CAT : 菜品查询接口
+GW ..> ORD : 下单／订单查询接口
+GW ..> DSP : 配送接口
+GW ..> RPT : 统计接口
+GW ..> AUD : 审计查询接口
+
+ORD ..> CAT : 库存校验与扣减
+ORD ..> PAY : 创建支付
+ORD ..> NTF : 支付成功事件
+ORD ..> AUD : 操作日志
+REF ..> PAY : 原路退款
+DSP ..> ORD : 状态回写
+DSP ..> NTF : 取餐／送达提醒
+RPT ..> ORD : 只读查询（从库）
+
+ORD --> DB
+CAT --> DB
+DSP --> DB
+AUD --> DB
+CAT --> CACHE
+ORD --> MQ
+MQ --> NTF
+MQ --> DSP
+PAY --> CH
+
+note bottom of AUD
+  写操作与日志在同一事务内提交：
+  业务成功而日志缺失视为失败（REQ-019）
+end note
+@enduml

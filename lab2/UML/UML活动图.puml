@@ -1,0 +1,71 @@
+@startuml UML活动图
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam ArrowColor #344054
+skinparam ArrowFontColor #5A6272
+skinparam dpi 150
+skinparam activity {
+  BackgroundColor #F7FAFC
+  BorderColor #344054
+  FontSize 12
+  DiamondBackgroundColor #FFF8E6
+  DiamondBorderColor #B5813B
+}
+skinparam swimlane {
+  BorderColor #B9C4D4
+  TitleFontSize 12
+  TitleFontColor #1F3B63
+}
+
+|顾客|
+start
+:进入店铺，按关键词／分类／价格筛选;
+:选择规格加入购物车;
+:提交订单（携带幂等键）;
+|订单服务|
+:校验购物车与收货地址;
+if (地址在配送半径内？) then (否)
+  |顾客|
+  :提示"超出配送范围，可选择到店自取";
+  stop
+else (是)
+  |订单服务|
+  if (幂等键 30 分钟内已存在？) then (是)
+    :返回首次创建的订单;
+    stop
+  else (否)
+    :事务开始：扣减规格库存;
+    if (库存充足？) then (否)
+      :回滚已扣库存，返回缺货项;
+      |顾客|
+      :购物车保留原内容 ／ 结束;
+      stop
+    else (是)
+      :生成订单（待支付）＋价格快照＋状态流水;
+    endif
+  endif
+  :提交事务，返回支付参数;
+endif
+|支付平台|
+:收银台完成支付;
+:回调通知（签名、金额、渠道交易号）;
+|订单服务|
+:验签并作幂等判断;
+if (验签与金额校验通过？) then (否)
+  :记录异常并告警，订单状态不变;
+  stop
+else (是)
+  :同事务更新支付单＋订单（待接单）＋流水＋操作日志;
+  :投递"支付成功"事件;
+endif
+|商家|
+:收到待接单提醒（持续 3 分钟）;
+if (5 分钟内接单？) then (是)
+  :订单进入制作中;
+  stop
+else (否)
+  |定时任务|
+  :自动取消订单并全额退款;
+  stop
+endif
+@enduml
