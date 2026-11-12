@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>M1b 拒单原因</title>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<div class="phone">
+  <iframe src="m1_workbench.html" style="position:absolute;inset:0;width:390px;height:844px;border:0" scrolling="no"></iframe>
+
+  <div class="sheet-mask" style="background:rgba(17,24,39,.52)"></div>
+
+  <div style="position:absolute;left:20px;right:20px;bottom:24px;background:#fff;border-radius:18px;padding:20px;z-index:31;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div class="h2">拒单原因</div>
+    <div class="xs muted" style="margin-top:6px;line-height:1.6">拒单后订单立即取消并全额退款，原因计入店铺拒单率，管理员可见。</div>
+
+    <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+      <div class="row between" style="padding:12px 13px;border:1.5px solid var(--brand);background:var(--brand-soft);border-radius:11px;font-size:13.5px;font-weight:700;color:var(--brand)">
+        <span>部分菜品缺货</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+      </div>
+      <div style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:13.5px;color:var(--ink-2)">店内已打烊</div>
+      <div style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:13.5px;color:var(--ink-2)">收货地址超出配送范围</div>
+      <div style="padding:12px 13px;border:1px solid var(--line);border-radius:11px;font-size:13.5px;color:var(--ink-2)">其他（需填写说明）</div>
+    </div>
+
+    <div class="alert warn" style="margin-top:12px;padding:8px 10px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 9v4"/><circle cx="12" cy="16.4" r=".9" fill="currentColor" stroke="none"/></svg>
+      <span>未选择原因时"确认拒单"不可点击；退款原路返回，1–3 个工作日到账</span>
+    </div>
+
+    <div class="row gap10" style="margin-top:14px">
+      <button class="btn ghost" style="flex:1;height:44px">取消</button>
+      <button class="btn" style="flex:1.6;height:44px;background:#f04438;color:#fff">确认拒单并退款</button>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>A2 操作日志审计</title>
+<link rel="stylesheet" href="styles.css">
+<style>html, body { width: 1440px; height: 900px; }</style>
+</head>
+<body>
+<div class="desktop">
+  <div class="side">
+    <div class="logo">
+      <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff8a3d,#ff6b2c);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px">食</div>
+      <b>校园食刻</b>
+      <span style="font-size:10px;color:#6b7789;margin-left:2px">平台管理</span>
+    </div>
+    <div class="menu">
+      <a>数据总览</a>
+      <a>账号管理</a>
+      <a>店铺审核</a>
+      <a>订单监控</a>
+      <a class="on">日志审计</a>
+      <a>违规处理</a>
+      <a>系统配置</a>
+    </div>
+    <div class="foot">日志保留 ≥ 180 天，只读<br><span style="color:#e4a13a">无删除入口</span></div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb">日志审计</div>
+      <div style="flex:1"></div>
+      <span class="tag gray" style="height:24px">只读视图 · 任何角色不可修改</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eaf1fa;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#1f3b63">周</div>
+        <div style="font-size:12.5px;font-weight:700">周文朋</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="panel">
+        <div class="pb" style="display:flex;gap:12px;align-items:flex-end">
+          <div>
+            <div style="font-size:11.5px;color:var(--sub);margin-bottom:6px">时间范围</div>
+            <div style="width:230px;height:34px;border:1px solid var(--line);border-radius:9px;display:flex;align-items:center;padding:0 12px;font-size:12.5px;color:var(--ink-2)">2026-10-24 00:00 至 23:59</div>
+          </div>
+          <div>
+            <div style="font-size:11.5px;color:var(--sub);margin-bottom:6px">操作人</div>
+            <div style="width:160px;height:34px;border:1px solid var(--line);border-radius:9px;display:flex;align-items:center;padding:0 12px;font-size:12.5px;color:var(--faint)">账号 / 手机号</div>
+          </div>
+          <div>
+            <div style="font-size:11.5px;color:var(--sub);margin-bottom:6px">操作类型</div>
+            <div style="width:170px;height:34px;border:1px solid var(--line);border-radius:9px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:12.5px;color:var(--ink-2)">全部（17 类）<span style="color:#c4cad4">▾</span></div>
+          </div>
+          <div>
+            <div style="font-size:11.5px;color:var(--sub);margin-bottom:6px">对象编号</div>
+            <div style="width:220px;height:34px;border:1px solid var(--line);border-radius:9px;display:flex;align-items:center;padding:0 12px;font-size:12.5px;color:var(--faint)">订单号 / 菜品 ID / 店铺 ID</div>
+          </div>
+          <button class="btn primary" style="height:34px;padding:0 22px;font-size:13px;border-radius:9px">查询</button>
+          <button class="btn ghost" style="height:34px;padding:0 18px;font-size:13px;border-radius:9px">重置</button>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px">
+        <div class="ph">
+          <b style="font-size:13.5px">操作日志</b>
+          <span style="font-size:11.5px;color:var(--sub)">共 1,284 条 · 每页 50 条 · 按时间倒序</span>
+        </div>
+        <table class="table">
+          <tr>
+            <th style="width:132px">操作时间</th><th style="width:88px">操作人</th><th style="width:78px">角色</th>
+            <th style="width:120px">操作类型</th><th>对象</th><th>改前 → 改后</th><th style="width:118px">来源 IP</th>
+          </tr>
+          <tr>
+            <td class="mono">10-24 18:32:05</td><td>138****5678</td><td>系统</td>
+            <td><span class="tag info" style="height:19px">支付结果确认</span></td>
+            <td class="mono">SC20261024183201</td><td>待支付 → 待接单</td><td class="mono">10.21.8.14</td>
+          </tr>
+          <tr>
+            <td class="mono">10-24 18:32:06</td><td>胡陟邦</td><td>商家</td>
+            <td><span class="tag gray" style="height:19px">接单</span></td>
+            <td class="mono">SC20261024183201</td><td>待接单 → 制作中</td><td class="mono">10.21.8.31</td>
+          </tr>
+          <tr class="hl">
+            <td class="mono">10-24 18:33:41</td><td>王倩</td><td>商家</td>
+            <td><span class="tag danger" style="height:19px">越权尝试</span></td>
+            <td class="mono">SC20261024183201</td><td>拒绝：非本店铺订单</td><td class="mono">10.21.9.7</td>
+          </tr>
+          <tr>
+            <td class="mono">10-24 18:35:12</td><td>胡陟邦</td><td>商家</td>
+            <td><span class="tag gray" style="height:19px">改价</span></td>
+            <td class="mono">DISH-2031 / 大份</td><td>¥18.00 → ¥20.00</td><td class="mono">10.21.8.31</td>
+          </tr>
+          <tr>
+            <td class="mono">10-24 18:40:02</td><td>张师傅</td><td>配送人员</td>
+            <td><span class="tag gray" style="height:19px">取餐</span></td>
+            <td class="mono">DL20261024184002</td><td>已接单 → 配送中</td><td class="mono">10.21.7.55</td>
+          </tr>
+          <tr>
+            <td class="mono">10-24 18:52:30</td><td>张师傅</td><td>配送人员</td>
+            <td><span class="tag gray" style="height:19px">送达</span></td>
+            <td class="mono">SC20261024183201</td><td>配送中 → 已完成</td><td class="mono">10.21.7.55</td>
+          </tr>
+          <tr class="hl">
+            <td class="mono">10-24 19:02:11</td><td>周文朋</td><td>平台管理员</td>
+            <td><span class="tag danger" style="height:19px">越权尝试</span></td>
+            <td class="mono">SC20261024183201</td><td>拒绝：管理员不可改金额</td><td class="mono">10.21.1.3</td>
+          </tr>
+          <tr>
+            <td class="mono">10-24 19:05:47</td><td>系统</td><td>系统</td>
+            <td><span class="tag warn" style="height:19px">退款</span></td>
+            <td class="mono">RF20261024190547</td><td>退款中 → 已退款</td><td class="mono">10.21.8.14</td>
+          </tr>
+        </table>
+        <div class="ph" style="border-top:1px solid var(--line);border-bottom:none">
+          <span style="font-size:11.5px;color:var(--sub)">日志与业务操作在同一事务内写入；业务成功而日志缺失视为操作失败</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span class="tag line" style="height:24px">上一页</span>
+            <span class="tag brand" style="height:24px">1</span>
+            <span class="tag line" style="height:24px">2</span>
+            <span class="tag line" style="height:24px">3</span>
+            <span class="tag line" style="height:24px">下一页</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

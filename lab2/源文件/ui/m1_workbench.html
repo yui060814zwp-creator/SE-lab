@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>M1 接单工作台</title>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<div class="phone">
+  <div class="statusbar"><span>9:41</span><span class="icons">
+    <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+    <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.2 5.6 7.8a3.4 3.4 0 0 1 4.8 0L8 10.2Zm-3.7-3.7L2.6 4.7a7.7 7.7 0 0 1 10.8 0l-1.7 1.8a5.3 5.3 0 0 0-7.4 0Z"/></svg>
+    <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="15" height="7" rx="1.5" fill="currentColor"/><path d="M22.5 4v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
+  </span></div>
+
+  <div class="nav" style="background:#1d2433;border-bottom:none">
+    <div class="title" style="color:#fff;font-size:15px">食刻·砂锅饭 · 商家端</div>
+    <div class="spacer"></div>
+    <span class="tag" style="background:rgba(18,183,106,.18);color:#4ade80;height:22px"><i class="dot" style="background:#4ade80"></i>营业中</span>
+  </div>
+
+  <div class="body" style="padding:12px 14px 12px;overflow:hidden">
+    <div class="card" style="padding:12px">
+      <div class="between" style="margin-bottom:8px"><span class="h3">营业状态</span><span class="xs faint">顾客端 5 秒内生效</span></div>
+      <div class="seg"><span class="on">营业中</span><span>休息中</span><span>暂停接单</span></div>
+    </div>
+
+    <div class="row gap8" style="margin-top:10px">
+      <div class="card" style="flex:1;padding:10px 12px"><div class="xs faint">今日订单</div><div style="font-size:19px;font-weight:800;margin-top:2px">86</div></div>
+      <div class="card" style="flex:1;padding:10px 12px;border:1px solid #ffe0d0"><div class="xs faint">待接单</div><div style="font-size:19px;font-weight:800;margin-top:2px;color:var(--brand)">2</div></div>
+      <div class="card" style="flex:1;padding:10px 12px"><div class="xs faint">制作中</div><div style="font-size:19px;font-weight:800;margin-top:2px">3</div></div>
+    </div>
+
+    <!-- 待接单 -->
+    <div class="card" style="padding:14px;margin-top:10px;border:1.5px solid #ffcfb8">
+      <div class="between">
+        <div class="row gap8">
+          <span class="tag brand" style="height:20px">新订单</span>
+          <span class="xs" style="font-family:Consolas,monospace;color:var(--sub)">SC20261024183201</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;color:var(--danger);font-weight:800;font-size:14px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+          02:47
+        </div>
+      </div>
+      <div class="s" style="font-weight:700;margin-top:9px">招牌腊味煲仔饭（大份·微辣）× 2</div>
+      <div class="s" style="font-weight:700;margin-top:3px">香菇滑鸡饭（小份·不辣）× 1</div>
+      <div class="xs faint" style="margin-top:5px">备注：少放辣 · 餐具 1 份 · 18:32 支付</div>
+      <div class="row between" style="margin-top:6px">
+        <span class="xs muted">已等待 1 分 13 秒</span>
+        <span class="price"><span class="cny">¥</span><span class="num" style="font-size:17px">58.00</span></span>
+      </div>
+      <div class="row gap10" style="margin-top:10px">
+        <button class="btn ghost" style="flex:1;height:38px">拒单</button>
+        <button class="btn primary" style="flex:2;height:38px">接单</button>
+      </div>
+    </div>
+
+    <!-- 制作中 -->
+    <div class="card" style="padding:14px;margin-top:10px">
+      <div class="between">
+        <div class="row gap8">
+          <span class="tag warn" style="height:20px">制作中</span>
+          <span class="xs" style="font-family:Consolas,monospace;color:var(--sub)">SC20261024182633</span>
+        </div>
+        <span class="xs muted">已等待 4 分 10 秒</span>
+      </div>
+      <div class="s" style="font-weight:700;margin-top:9px">番茄牛腩饭（大份·中辣）× 1 ｜ 例汤 × 1</div>
+      <div class="row gap10" style="margin-top:10px">
+        <button class="btn ghost" style="flex:1;height:38px">申请取消</button>
+        <button class="btn primary" style="flex:2;height:38px">出餐</button>
+      </div>
+    </div>
+
+    <!-- 待配送 -->
+    <div class="card" style="padding:14px;margin-top:10px">
+      <div class="between">
+        <div class="row gap8">
+          <span class="tag info" style="height:20px">待配送</span>
+          <span class="xs" style="font-family:Consolas,monospace;color:var(--sub)">DL20261024184002</span>
+        </div>
+        <span class="xs muted">已出餐 1 分钟</span>
+      </div>
+      <div class="s" style="font-weight:700;margin-top:9px">学生公寓 6 栋 508 · 未分配骑手</div>
+      <div class="row gap10" style="margin-top:10px">
+        <button class="btn ghost" style="flex:1;height:38px">撤回</button>
+        <button class="btn soft" style="flex:2;height:38px">指派骑手 / 等待抢单</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

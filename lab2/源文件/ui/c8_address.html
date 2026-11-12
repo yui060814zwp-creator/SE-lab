@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>C8 收货地址</title>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<div class="phone">
+  <div class="statusbar"><span>9:41</span><span class="icons">
+    <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+    <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.2 5.6 7.8a3.4 3.4 0 0 1 4.8 0L8 10.2Zm-3.7-3.7L2.6 4.7a7.7 7.7 0 0 1 10.8 0l-1.7 1.8a5.3 5.3 0 0 0-7.4 0Z"/></svg>
+    <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="15" height="7" rx="1.5" fill="currentColor"/><path d="M22.5 4v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
+  </span></div>
+
+  <div class="nav">
+    <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <div class="title">收货地址</div>
+    <div class="spacer"></div>
+    <div class="s" style="color:var(--brand);font-weight:700">新增</div>
+  </div>
+
+  <div class="body" style="padding:12px 14px 96px;overflow:hidden">
+    <div class="between" style="margin:0 2px 10px">
+      <span class="xs faint">已保存 3 / 10 个地址</span>
+      <span class="xs faint">默认地址唯一</span>
+    </div>
+
+    <!-- 默认地址 -->
+    <div class="card" style="padding:14px">
+      <div class="between">
+        <div class="row gap8">
+          <span class="s" style="font-weight:800">周同学</span>
+          <span class="s muted">138****5678</span>
+          <span class="tag brand" style="height:18px">默认</span>
+        </div>
+        <span class="xs" style="color:var(--info)">编辑</span>
+      </div>
+      <div class="xs muted" style="margin-top:7px;line-height:1.55">南京大学仙林校区 学生公寓 6 栋 508 室</div>
+      <div class="row gap8" style="margin-top:9px">
+        <span class="tag ok" style="height:19px">配送范围内 · 1.2km</span>
+        <span class="tag line" style="height:19px">可配送</span>
+      </div>
+    </div>
+
+    <!-- 第二地址 -->
+    <div class="card" style="padding:14px;margin-top:10px">
+      <div class="between">
+        <div class="row gap8">
+          <span class="s" style="font-weight:800">周同学</span>
+          <span class="s muted">138****5678</span>
+        </div>
+        <span class="xs" style="color:var(--info)">编辑</span>
+      </div>
+      <div class="xs muted" style="margin-top:7px;line-height:1.55">南京大学仙林校区 图书馆 3 层自习区</div>
+      <div class="row gap8" style="margin-top:9px">
+        <span class="tag ok" style="height:19px">配送范围内 · 1.8km</span>
+        <span class="tag line" style="height:19px">设为默认</span>
+        <span class="tag line" style="height:19px;color:var(--danger);border-color:#f7c9c4">删除</span>
+      </div>
+    </div>
+
+    <!-- 超范围地址 -->
+    <div class="card" style="padding:14px;margin-top:10px;border:1px solid #f7d8d3">
+      <div class="between">
+        <div class="row gap8">
+          <span class="s" style="font-weight:800">李同学</span>
+          <span class="s muted">139****2233</span>
+        </div>
+        <span class="xs" style="color:var(--info)">编辑</span>
+      </div>
+      <div class="xs muted" style="margin-top:7px;line-height:1.55">栖霞区 仙林大道 200 号 金鹰天地 B 座 1201</div>
+      <div class="alert danger" style="margin-top:9px;padding:7px 10px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5"/><circle cx="12" cy="16.6" r="1"/><path d="M12 3 2.5 20h19z"/></svg>
+        <span>距店铺 3.2km，超出配送范围（3.0km），下单时不可选，可选择到店自取</span>
+      </div>
+    </div>
+
+    <div class="xs faint" style="margin:12px 2px 0;line-height:1.7">
+      · 楼栋、门牌缺失时允许保存，但下单前会提示补充<br>
+      · 手机号须为 11 位大陆号码，否则保存失败<br>
+      · 地址数量达到 10 个后需先删除才能新增
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <button class="btn primary block">新增收货地址</button>
+  </div>
+</div>
+</body></html>
